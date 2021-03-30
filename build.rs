@@ -11,7 +11,18 @@ fn main() {
             .args(&["submodule", "update", "--init", "--recursive"])
             .status()
             .unwrap();
+        Command::new("cd").arg(dir).status().unwrap();
+        Command::new("git")
+            .args(&["submodule", "sync", "--recursive"])
+            .status()
+            .unwrap();
+        Command::new("git")
+            .args(&["submodule", "update", "--init", "--recursive"])
+            .status()
+            .unwrap();
+        Command::new("cd").arg("--").status().unwrap();
     }
+
     let configure = format!("{}/configure", &dir);
     if !Path::new(&configure).exists() {
         let status = Command::new("./tools/autogen.sh")
